@@ -1,0 +1,28 @@
+i# Virtual environments
+venv/
+.env/
+.env*/
+env/
+.venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.so
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data (keep raw out of git; commit small metadata only if needed)
+data/raw/
+data/processed/
+data/output/
+
+# OS / editor
+.DS_Store
+*.swp
+*.swo
+
+# Logs
+*.log
+
