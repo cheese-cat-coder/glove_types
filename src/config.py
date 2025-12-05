@@ -1,18 +1,10 @@
-csv_files = ["ALP", "BS", "DR", "EC", "HD", "JF", "JR", "SS2"]
-file_suffix = ".csv"
+# general configuration variables used to run things
 
 BASE_DIR = "~/Research/wheelchair/data/raw/Max"
 OUTPUT_DIR = "~/Research/wheelchair/data/processed/"
 
+# glove material types
+GLOVE_MATERIALS = ["HYB", "PLA"]
 
-# configurations for glove types
-HYB = "HYB"
-PLA = "PLA"
-
-"""
-Get the base file
-
-material: either 'HYB' or 'PLA'
-"""
-def format_file(material, initials):
-    return f"{BASE_DIR}/{material}/{initials}25{material}.csv"
+# participant initials
+PARTICIPANTS = ["ALP", "BS", "DR", "EC", "HD", "JF", "JR", "SS"]
