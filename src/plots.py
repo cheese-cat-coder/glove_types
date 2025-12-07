@@ -154,7 +154,9 @@ def plot_cycle_selection_analysis(
 
     # 7. Cycle-by-cycle distance plot
     ax7 = plt.subplot(3, 3, 7)
-    cycle_nums = np.arange(len(results["all_cycle_ids"]))
+    
+    # manual cleaning - for when the distances couldn't be calculated
+    cycle_nums = np.arange(len(results["all_cycle_ids"]) -  results["n_dropped_cycles"])
     colors = ["green" if i in selected_idx else "red" for i in range(len(distances))]
     ax7.scatter(cycle_nums, distances, c=colors, alpha=0.6, s=50)
     ax7.axhline(

@@ -41,6 +41,7 @@ def find_steady_state_cycles(
 
     # Time-normalize all cycles to compare shapes
     normalized_cycles = []
+    dropped_cycles = 0
     for cycle_id in cycle_ids:
         cycle_data = df[df[cycle_col] == cycle_id]
         try:
@@ -48,6 +49,8 @@ def find_steady_state_cycles(
             normalized_cycles.append(norm_cycle)
         except:
             print(f"Error: Couldn't find normalized data for cycle {cycle_id}")
+            dropped_cycles = dropped_cycles + 1
+            
 
     cycle_matrix = np.array(normalized_cycles)  # (n_cycles, 101)
 
@@ -87,6 +90,7 @@ def find_steady_state_cycles(
         "all_cycles_matrix": cycle_matrix,
         "all_cycle_ids": cycle_ids,
         "selected_idx": steady_state_idx,
+        "n_dropped_cycles": dropped_cycles
     }
 
     return results
