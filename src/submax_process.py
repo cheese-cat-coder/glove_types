@@ -4,6 +4,7 @@ from plots import plot_cycle_selection_analysis
 import os
 import pandas as pd
 import numpy as np
+from utils import add_summary_rows
 
 import seaborn as sns
 
@@ -54,6 +55,8 @@ def steady_state_cycle_calculations(
 
     # calculate the kinetics on this
     kinetics_calculations = run_kinetics_calculations(selected_cycle_df)
+    
+    kinetics_calculations = add_summary_rows(kinetics_calculations)
 
     # TODO: calculate the kinematics on this too
     return {"kinetics": kinetics_calculations, 
@@ -71,6 +74,15 @@ def drop_cycles_all_missing_theta(df, cycle_col="cycle[count]"):
     cycles_to_drop = cycles_all_missing[cycles_all_missing].index
     df = df[~df[cycle_col].isin(cycles_to_drop)]
     
+    return df
+
+
+# helper function to flip the positive/negative values for power and torque
+def _clean_left_side_df(df):
+    # swap out the positive and negative sided power
+    df['moment_x_L[Nm]'] = -1 * df['moment_x_L[Nm]']
+    df['moment_y_L[Nm]'] = -1 * df['moment_y_L[Nm]']
+    df['moment_z_L[Nm]'] = -1 * df['moment_z_L[Nm]']
     return df
 
 
@@ -92,6 +104,8 @@ def process_and_export_kinetics(base_output_dir=SUBMAX_OUTPUT_DIR):
                 input_file = f"{SUBMAX_BASE_DIR}/{material}/{person}_submax_{material}.csv"
 
                 df = pd.read_csv(input_file)
+                # flip the positive and negative values for the R and L sides
+                df = _clean_left_side_df(df)
                 
                 try: 
                     kinetics_and_results = steady_state_cycle_calculations(df, f"{percentile}%")        
