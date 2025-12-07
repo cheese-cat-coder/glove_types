@@ -43,8 +43,11 @@ def find_steady_state_cycles(
     normalized_cycles = []
     for cycle_id in cycle_ids:
         cycle_data = df[df[cycle_col] == cycle_id]
-        norm_cycle = time_normalize_cycle(cycle_data, time_col, moment_col)
-        normalized_cycles.append(norm_cycle)
+        try:
+            norm_cycle = time_normalize_cycle(cycle_data, time_col, moment_col)
+            normalized_cycles.append(norm_cycle)
+        except:
+            print(f"Error: Couldn't find normalized data for cycle {cycle_id}")
 
     cycle_matrix = np.array(normalized_cycles)  # (n_cycles, 101)
 
